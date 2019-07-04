@@ -85,13 +85,13 @@ class DICOMPhilipsRescalePluginClass(DICOMPlugin):
       reverseShift = vtk.vtkImageShiftScale()
       reverseShift.SetShift(-1.*intercept)
       reverseShift.SetScale(1)
-      reverseShift.SetInput(vNode.GetImageData())
+      reverseShift.SetInputData(vNode.GetImageData())
       reverseShift.SetOutputScalarTypeToFloat()
 
       reverseScale = vtk.vtkImageShiftScale()
       reverseScale.SetShift(0)
       reverseScale.SetScale(1./slope)
-      reverseScale.SetInput(reverseShift.GetOutput())
+      reverseScale.SetInputData(reverseShift.GetOutput())
       reverseScale.SetOutputScalarTypeToFloat()
 
       # Second, apply scaling using the private tags information
@@ -99,7 +99,7 @@ class DICOMPhilipsRescalePluginClass(DICOMPlugin):
       rescale.SetShift(-1.*privateIntercept)
       rescale.SetScale(1./privateSlope)
       rescale.SetOutputScalarTypeToFloat()
-      rescale.SetInput(reverseScale.GetOutput())
+      rescale.SetInputData(reverseScale.GetOutput())
       rescale.Update()
 
       imageData = vtk.vtkImageData()
